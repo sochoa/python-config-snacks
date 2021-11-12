@@ -2,6 +2,7 @@ import copy
 import dataclasses
 import os
 import re
+import fs.base as fs_base
 
 
 @dataclasses.dataclass
@@ -57,3 +58,18 @@ def render(d, placeholders):
                 if placeholder in v:
                     n[k] = v.replace(placeholder, new_val)
     return n
+
+def get_env_placeholders(**kwargs):
+    return parse(os.environ, **kwargs)
+
+def get_file_placeholders(fs: fs_base.FS, *files, **kwargs):
+    d = {}
+    file_set = set(files)
+    encoding = kwargs.get("encoding", "utf-8")
+    for filepath in file_set:
+        if fs.exists(filepath):
+            basename = os.path.basename(filepath)
+            if basename in d:
+                raise Exception(f"File placeholder {basename} shows up twice in file placeholders list: {file_set}")
+            d[basename] = fs.readtext(filepath).strip()
+    return parse(d)

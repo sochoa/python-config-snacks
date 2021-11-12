@@ -1,2 +1,3 @@
 coverage
 pylint
+fs>=2.4.13

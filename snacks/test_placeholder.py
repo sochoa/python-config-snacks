@@ -1,5 +1,7 @@
 import unittest
 
+from fs import open_fs
+
 import snacks.placeholder
 
 class TestEnvSource(unittest.TestCase):
@@ -59,3 +61,12 @@ class TestEnvSource(unittest.TestCase):
         }
         actual_rendered_config = snacks.placeholder.render(sample_config, env)
         self.assertEqual(expected_rendered_config, actual_rendered_config)
+
+    def test_file_placeholders(self):
+        memfs = open_fs('mem://')
+        memfs.makedir("/etc", permissions=0o0755)
+        memfs.writetext("/etc/region", "us-ashburn-1")
+        placeholders = snacks.placeholder.get_file_placeholders(memfs, "/etc/region")
+        expected_placeholders = {'${REGION}': 'us-ashburn-1', '${region}': 'us-ashburn-1'}
+        self.assertEqual(expected_placeholders, placeholders)
+
