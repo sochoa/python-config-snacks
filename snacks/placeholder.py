@@ -10,14 +10,14 @@ class Placeholder:
     placeholder_start: str = "${"
     placeholder_end: str = "}"
 
-    def wrap_with_placeholder(self, k):
+    def wrap_as_placeholder(self, k):
         return "".join([self.placeholder_start, k, self.placeholder_end])
 
     def get_possible_matches(self):
         matches = [
-            self.wrap_with_placeholder(self.base),
-            self.wrap_with_placeholder(self.base.lower()),
-            self.wrap_with_placeholder(self.base.upper()),
+            self.wrap_as_placeholder(self.base),
+            self.wrap_as_placeholder(self.base.lower()),
+            self.wrap_as_placeholder(self.base.upper()),
         ]
         return set(matches)
 
