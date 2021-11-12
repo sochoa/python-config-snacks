@@ -11,3 +11,4 @@ lint:
 
 test: venv install lint
 	build/bin/coverage run -m unittest discover
+	build/bin/coverage report -m

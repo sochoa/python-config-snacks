@@ -23,9 +23,11 @@ class Placeholder:
 
 
 def parse(d, **kwargs) -> dict:
+
+    def should_include(i): return any(regexp.search(i) for regexp in whitelist)
     whitelist_patterns = kwargs.get('whitelist_patterns', ['.+'])
     whitelist = [re.compile(p) for p in whitelist_patterns]
-    def should_include(i): return any(regexp.search(i) for regexp in whitelist)
+    
     placeholder_dict = {}
     placeholder_start = kwargs.get("placeholder_start", "${")
     placeholder_end = kwargs.get("placeholder_end", "}")
