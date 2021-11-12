@@ -11,10 +11,11 @@ class TestAssertions(TestCase):
         }
         for pattern, _callable in expected_assertion_exceptions.items():
             self.assertRaisesRegex(AssertionError, pattern, _callable)
-            
+
         expected_no_assertions = [
             lambda: snacks.assertions.assert_none(True),
             lambda: snacks.assertions.assert_numeric(1),
+            lambda: snacks.assertions.assert_numeric(1.1),
             lambda: snacks.assertions.assert_numeric(complex(2, 3)),
             lambda: snacks.assertions.assert_str("foo"),
         ]
