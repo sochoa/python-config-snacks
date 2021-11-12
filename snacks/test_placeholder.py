@@ -1,6 +1,6 @@
 import unittest
 
-import snacks.source.placeholder
+import snacks.placeholder
 
 class TestEnvSource(unittest.TestCase):
     def test_happy_path(self):
@@ -15,7 +15,7 @@ class TestEnvSource(unittest.TestCase):
             '${C}': 'monkey',
             '${c}': 'monkey',
         }
-        actual_env = snacks.source.placeholder.parse(mocked_env, whitelist_patterns=["^[bc]$"])
+        actual_env = snacks.placeholder.parse(mocked_env, whitelist_patterns=["^[bc]$"])
         self.assertEqual(expected_env, actual_env)
 
     def test_render(self):
@@ -24,7 +24,7 @@ class TestEnvSource(unittest.TestCase):
             "b": "bar",
             "c": "monkey",
         }
-        env = snacks.source.placeholder.parse(mocked_env, whitelist_patterns=["^[bc]$"])
+        env = snacks.placeholder.parse(mocked_env, whitelist_patterns=["^[bc]$"])
 
         sample_config = {
             "h": "${a}/the/quick/fox",
@@ -36,7 +36,7 @@ class TestEnvSource(unittest.TestCase):
             'i': '/jumps/over/the/bar',
             'j': 'lazy/monkey/dog'
         }
-        actual_rendered_config = snacks.source.placeholder.render(sample_config, env)
+        actual_rendered_config = snacks.placeholder.render(sample_config, env)
         self.assertEqual(expected_rendered_config, actual_rendered_config)
 
     def test_render_no_whitelist(self):
@@ -45,7 +45,7 @@ class TestEnvSource(unittest.TestCase):
             "b": "bar",
             "c": "monkey",
         }
-        env = snacks.source.placeholder.parse(mocked_env)
+        env = snacks.placeholder.parse(mocked_env)
 
         sample_config = {
             "h": "${a}/the/quick/fox",
@@ -57,5 +57,5 @@ class TestEnvSource(unittest.TestCase):
             'i': '/jumps/over/the/bar',
             'j': 'lazy/monkey/dog',
         }
-        actual_rendered_config = snacks.source.placeholder.render(sample_config, env)
+        actual_rendered_config = snacks.placeholder.render(sample_config, env)
         self.assertEqual(expected_rendered_config, actual_rendered_config)
