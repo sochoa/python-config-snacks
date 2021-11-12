@@ -7,7 +7,7 @@ install:
 	build/bin/python -m pip install -e .
 
 lint:
-	build/bin/pylint -E snacks
+	build/bin/pylint -E config_snacks
 
 test: venv install lint
 	build/bin/coverage run -m unittest discover

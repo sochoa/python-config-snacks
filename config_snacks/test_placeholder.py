@@ -2,7 +2,7 @@ import unittest
 
 from fs import open_fs
 
-import snacks.placeholder
+import config_snacks.placeholder
 
 class TestEnvSource(unittest.TestCase):
     def test_parse(self):
@@ -17,7 +17,7 @@ class TestEnvSource(unittest.TestCase):
             '${C}': 'monkey',
             '${c}': 'monkey',
         }
-        actual_env = snacks.placeholder.parse(mocked_env, whitelist_patterns=["^[bc]$"])
+        actual_env = config_snacks.placeholder.parse(mocked_env, whitelist_patterns=["^[bc]$"])
         self.assertEqual(expected_env, actual_env)
 
     def test_render(self):
@@ -26,7 +26,7 @@ class TestEnvSource(unittest.TestCase):
             "b": "bar",
             "c": "monkey",
         }
-        env = snacks.placeholder.parse(mocked_env, whitelist_patterns=["^[bc]$"])
+        env = config_snacks.placeholder.parse(mocked_env, whitelist_patterns=["^[bc]$"])
 
         sample_config = {
             "h": "${a}/the/quick/fox",
@@ -38,7 +38,7 @@ class TestEnvSource(unittest.TestCase):
             'i': '/jumps/over/the/bar',
             'j': 'lazy/monkey/dog'
         }
-        actual_rendered_config = snacks.placeholder.render(sample_config, env)
+        actual_rendered_config = config_snacks.placeholder.render(sample_config, env)
         self.assertEqual(expected_rendered_config, actual_rendered_config)
 
     def test_render_no_whitelist(self):
@@ -47,7 +47,7 @@ class TestEnvSource(unittest.TestCase):
             "b": "bar",
             "c": "monkey",
         }
-        env = snacks.placeholder.parse(mocked_env)
+        env = config_snacks.placeholder.parse(mocked_env)
 
         sample_config = {
             "h": "${a}/the/quick/fox",
@@ -59,14 +59,14 @@ class TestEnvSource(unittest.TestCase):
             'i': '/jumps/over/the/bar',
             'j': 'lazy/monkey/dog',
         }
-        actual_rendered_config = snacks.placeholder.render(sample_config, env)
+        actual_rendered_config = config_snacks.placeholder.render(sample_config, env)
         self.assertEqual(expected_rendered_config, actual_rendered_config)
 
     def test_file_placeholders(self):
         memfs = open_fs('mem://')
         memfs.makedir("/etc", permissions=0o0755)
         memfs.writetext("/etc/region", "us-ashburn-1")
-        placeholders = snacks.placeholder.get_file_placeholders(memfs, "/etc/region")
+        placeholders = config_snacks.placeholder.get_file_placeholders(memfs, "/etc/region")
         expected_placeholders = {'${REGION}': 'us-ashburn-1', '${region}': 'us-ashburn-1'}
         self.assertEqual(expected_placeholders, placeholders)
 
