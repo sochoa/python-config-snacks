@@ -5,7 +5,7 @@ from fs import open_fs
 import snacks.placeholder
 
 class TestEnvSource(unittest.TestCase):
-    def test_happy_path(self):
+    def test_parse(self):
         mocked_env = {
             "a": "foo",
             "b": "bar",
