@@ -1,5 +1,10 @@
-Snacks
+Config Snacks
 =============
+
+## Overview
+
+This project is called config "snacks" because its a collection
+of small bits that make configuration a bit easier.
 
 ## Placeholders
 
