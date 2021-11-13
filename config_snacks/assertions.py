@@ -1,4 +1,5 @@
 import os.path
+import fs.base as fs_base
 
 
 def assert_none(v):
@@ -29,8 +30,8 @@ def assert_path_exists(v):
     if not os.path.exists(v):
         raise AssertionError(f"Path does not exist: {v}")
 
-def assert_file_exists(v):
-    assert_path_exists(v)
+def assert_file_exists(fs, v):
+    assert_path_exists(fs, v)
     if not os.path.isfile(v):
         raise AssertionError(f"Is not a file: {v}")
 

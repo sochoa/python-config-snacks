@@ -18,9 +18,11 @@ if __name__ == "__main__":
         config = munchify(yaml.safe_load(config_fd))
     assertions.assert_none(config)
 
+    placeholders = config_snacks.placeholder.get_env_placeholders()
+
+    placeholder_files = ["/path/to/secrets/db_password"]
     normal_os_filesystem = OSFS("/")
-    db_password_filepath = "/path/to/secrets/db_password"
-    placeholders = config_snacks.placeholder.get_file_placeholders(normal_os_filesystem, db_password_filepath)
+    placeholders.update(config_snacks.placeholder.get_file_placeholders(normal_os_filesystem, *placeholder_files))
 
     assertions.assert_str(config.db.dbname)
     assertions.assert_str(config.db.user)
